@@ -1,0 +1,40 @@
+{
+  "name": "paypalnext",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "push": "git add . && git commit -m 'fast push' && git push origin main"
+  },
+  "dependencies": {
+    "@google-cloud/local-auth": "^2.1.0",
+    "@hookform/resolvers": "^5.0.1",
+    "@paypal/checkout-server-sdk": "^1.0.3",
+    "@paypal/paypal-server-sdk": "^1.0.0",
+    "@paypal/react-paypal-js": "^8.8.3",
+    "@tailwindcss/forms": "^0.5.10",
+    "class-variance-authority": "^0.7.1",
+    "googleapis": "^105.0.0",
+    "lucide-react": "^0.511.0",
+    "next": "15.2.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.56.4",
+    "react-toastify": "^11.0.5",
+    "tailwind-merge": "^3.3.0",
+    "zod": "^3.25.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.7",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5"
+  }
+}
