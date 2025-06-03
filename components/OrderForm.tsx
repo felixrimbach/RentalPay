@@ -31,13 +31,13 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-const UNIT_PRICE = 10.99;
+const UNIT_PRICE = process.env.NEXT_PUBLIC_UNIT_PRICE;
 
 export default function OrderForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [emailAddress, setEmailAddress] = useState('');
   const [quantity, setQuantity] = useState(11);
-  const total = quantity * UNIT_PRICE;
+  const total = quantity * Number(UNIT_PRICE);
   const [agreeTerms, setAgreeTerms] = useState(false);
 
   const { register, formState: { errors }, handleSubmit, setValue, trigger, watch, reset } = useForm<FormValues>({
@@ -83,7 +83,7 @@ export default function OrderForm() {
     }
   };
 
-  const totalAmount = (quantity * UNIT_PRICE).toFixed(2);
+  const totalAmount = (quantity * Number(UNIT_PRICE)).toFixed(2);
 
   // Add this function to reset the form and state
   const resetForm = () => {
@@ -149,7 +149,7 @@ export default function OrderForm() {
         <div className="bg-violet-50 rounded-lg p-4 mt-6 text-xl">
           <div className="flex justify-between mb-2">
             <span>Price per unit:</span>
-            <span className="font-medium text-2xl text-violet-700">${UNIT_PRICE.toFixed(2)}</span>
+            <span className="font-medium text-2xl text-violet-700">${Number(UNIT_PRICE).toFixed(2)}</span>
           </div>
           <div className="flex justify-between mb-2">
             <span>Quantity:</span>
