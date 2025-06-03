@@ -149,7 +149,7 @@ export default function OrderForm() {
         </div>
         <div className="bg-violet-50 rounded-lg p-4 mt-6 text-xl">
           <div className="flex justify-between mb-2">
-            <span>Price per unit:</span>
+            <span>Price per unit (USD 70 refundable, USD 5 Admin Fee):</span>
             <span className="font-medium text-2xl text-violet-700">${Number(UNIT_PRICE).toFixed(2)}</span>
           </div>
           <div className="flex justify-between mb-2">
