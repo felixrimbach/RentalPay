@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'Order Form',
+  title: 'Device Rental Payment Form',
   description: 'A modern order form with payment integration',
 }
 
