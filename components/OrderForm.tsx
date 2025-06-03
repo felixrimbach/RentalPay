@@ -32,11 +32,12 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const UNIT_PRICE = process.env.NEXT_PUBLIC_UNIT_PRICE;
+const DEFAULT_QUANTITY = process.env.NEXT_PUBLIC_DEFAULT_QUANTITY;
 
 export default function OrderForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [emailAddress, setEmailAddress] = useState('');
-  const [quantity, setQuantity] = useState(11);
+  const [quantity, setQuantity] = useState(Number(DEFAULT_QUANTITY));
   const total = quantity * Number(UNIT_PRICE);
   const [agreeTerms, setAgreeTerms] = useState(false);
 
@@ -44,7 +45,7 @@ export default function OrderForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
-      quantity: 1,
+      quantity: Number(DEFAULT_QUANTITY),
       cardholderName: "",
       cardNumber: "",
       expiryDate: "",
