@@ -111,7 +111,10 @@ export default function OrderForm() {
             type="email"
             placeholder="your@email.com"
             onChange={handleEmailChange}
-            className={`w-full px-3 py-2 mb-2 rounded-[4px] h-[60px] focus:outline-none ${errors.email ? 'border-1 border-red-500 focus:ring-2 focus:ring-red-500 focus:border-red-500' : 'border-1 border-[#333] focus:ring-2 focus:ring-black focus:border-black'}`}
+            className={`w-full p-4 text-lg border-2 rounded-lg focus:outline-none ${errors.email
+              ? 'border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500'
+              : 'border-violet-200 focus:border-violet-500'
+              }`}
           />
           {errors.email && (
             <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
@@ -169,11 +172,9 @@ export default function OrderForm() {
         quantity={quantity}
         validateEmail={async () => {
           const result = await trigger("email");
-          if (!result && errors.email) {
-            toast.error(errors.email.message as string);
-          }
           return result;
         }}
+        emailError={errors.email?.message}
         resetForm={resetForm}
         agreeTerms={agreeTerms}
         setAgreeTerms={setAgreeTerms}

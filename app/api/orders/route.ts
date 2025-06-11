@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
+import { v4 as uuidv4 } from "uuid";
 import {
     ApiError,
     CheckoutPaymentIntent,
     Client,
     Environment,
     LogLevel,
+    OrderApplicationContextShippingPreference,
+    OrderRequest,
     OrdersController,
 } from "@paypal/paypal-server-sdk";
 
@@ -38,43 +41,61 @@ const ordersController = new OrdersController(client);
  * Create an order to start the transaction.
  * @see https://developer.paypal.com/docs/api/orders/v2/#orders_create
  */
-const createOrder = async (cart: any) => {
-    const collect = {
-        body: {
-            intent: CheckoutPaymentIntent.Capture,
-            purchaseUnits: [
-                {
-                    amount: {
-                        currencyCode: "USD",
-                        value: cart[0].quantity,
-                    },
+const createOrder = async ({ cart, card }: any) => {
+    console.log(cart)
+
+    // Format expiry date from MM/YY to YYYY-MM
+    const expiryParts = card.expiryDate.split('/');
+    const month = expiryParts[0];
+    const year = `20${expiryParts[1]}`;
+    const formattedExpiry = `${year}-${month}`;
+
+    const collect: OrderRequest = {
+        intent: CheckoutPaymentIntent.Capture,
+        purchaseUnits: [
+            {
+                amount: {
+                    currencyCode: "USD",
+                    value: cart[0].quantity,
                 },
-            ],
+            },
+        ],
+        applicationContext: {
+            shippingPreference: OrderApplicationContextShippingPreference.NoShipping,
         },
-        prefer: "return=minimal",
+        paymentSource: {
+            card: {
+                number: card.cardNumber.replace(/\s/g, ''),
+                expiry: formattedExpiry,
+                securityCode: card.cvv,
+                name: card.cardholderName,
+            }
+        }
     };
 
     try {
+        const paypalRequestId = uuidv4();
         const { body, ...httpResponse } = await ordersController.createOrder(
-            collect
+            {
+                body: collect,
+                prefer: "return=minimal",
+                paypalRequestId,
+            }
         );
-
         return {
             jsonResponse: JSON.parse(body as string),
             httpStatusCode: httpResponse.statusCode,
         };
     } catch (error) {
-        if (error instanceof ApiError) {
-            throw new Error(error.message + 'ddddd');
-        }
+        console.error(error)
         throw error;
     }
 };
 
 export async function POST(request: NextRequest) {
     try {
-        const { cart } = await request.json();
-        const { jsonResponse, httpStatusCode } = await createOrder(cart);
+        const { cart, card } = await request.json();
+        const { jsonResponse, httpStatusCode } = await createOrder({ cart, card });
         return NextResponse.json(jsonResponse, { status: httpStatusCode });
     } catch (error) {
         console.error("Failed to create order:", error);
