@@ -1,7 +1,11 @@
 import { NextRequest } from "next/server";
 import sgMail from "@sendgrid/mail";
 import { NextResponse } from "next/server";
-import { format } from 'date-fns';
+import { format, addMinutes} from 'date-fns';
+
+function toUTC(date: Date) {
+    return addMinutes(date, date.getTimezoneOffset());
+}
 
 export async function POST(request: NextRequest) {
     try {
@@ -13,7 +17,9 @@ export async function POST(request: NextRequest) {
             datetime
          } = await request.json();
         sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
-        const formatted = format(new Date(), 'yy-MM-dd HH-mm');
+        const date = new Date();
+        const utcDate = toUTC(date);
+        const formatted = format(utcDate, 'yyyy-MM-dd HH-mm');
         const html = `<!DOCTYPE html>
                     <html>
                     <head>
