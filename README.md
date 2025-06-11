@@ -20,9 +20,6 @@ This is a simple application for ordering units of a product using PayPal and wr
    NEXT_PUBLIC_PAYPAL_CLIENT_ID=paypal_client_id
    NEXT_PUBLIC_PAYPAL_API_URL=https://api-m.paypal.com
    NEXT_PUBLIC_PAYPAL_CLIENT_SECRET=paypal_client_secret
-   NEXT_PUBLIC_UNIT_PRICE=
-   NEXT_PUBLIC_DEFAULT_QUANTITY=
-   SENDGRID_API_KEY=
    ```
 
 3. Run the development server:
