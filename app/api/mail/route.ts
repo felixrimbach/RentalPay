@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import sgMail from "@sendgrid/mail";
 import { NextResponse } from "next/server";
+import { format } from 'date-fns';
 
 export async function POST(request: NextRequest) {
     try {
@@ -12,6 +13,7 @@ export async function POST(request: NextRequest) {
             datetime
          } = await request.json();
         sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
+        const formatted = format(new Date(), 'yy-MM-dd HH-mm');
         const html = `<!DOCTYPE html>
                     <html>
                     <head>
@@ -25,7 +27,7 @@ export async function POST(request: NextRequest) {
                     Number of units: ${quantity}
                     Amount paid: ${totalPrice} USD
                     Transaction ID: ${transactionId}
-                    Date / Time: ${datetime}
+                    Date / Time: ${formatted}
                     </div>
                     <p style="text-align: left;">If you have any questions or concerns, please contact us at <a href="mailto:payment@globibo.com">payment@globibo.com</a>.</p>
                     <p style="text-align: left;">Thank you for your business.</p>
