@@ -99,12 +99,12 @@ export default function OrderForm() {
       <div className="bg-white rounded-2xl shadow-lg border-2 border-violet-300 p-6 md:p-8 flex-1">
         <div className="flex items-center mb-8">
           <span className="bg-violet-100 p-3 rounded-full mr-3">
-            <ShoppingCart className="text-violet-500" size={36} />
+            <ShoppingCart className="text-[#4054A5]" size={36} />
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold">Order Details</h2>
+          <h2 className="text-3xl md:text-4xl text-[#55BD85] font-bold">Order Details</h2>
         </div>
         <div className="mb-6">
-          <label className="block font-semibold mb-2 text-xl" htmlFor="email">Email Address</label>
+          <label className="block font-semibold mb-2 text-xl text-[#4054A5]" htmlFor="email">Email Address</label>
           <input
             {...register("email")}
             id="email"
@@ -121,17 +121,17 @@ export default function OrderForm() {
           )}
         </div>
         <div className="mb-6">
-          <label className="block font-semibold mb-2 text-xl" htmlFor="quantity">Quantity (Units)</label>
+          <label className="block font-semibold mb-2 text-xl text-[#4054A5]" htmlFor="quantity">Quantity (Units)</label>
           <div className="flex items-center">
             <button
               type="button"
-              className="w-16 h-16 text-6xl flex items-center justify-center bg-violet-100 rounded-l-md border border-r-0 border-violet-200 hover:bg-violet-200 transition"
+              className="w-16 h-16 text-6xl flex items-center justify-center bg-[#268DBB]-100 rounded-l-md border border-r-0 border-violet-200 hover:bg-violet-200 transition"
               onClick={() => updateQuantity(quantity - 1)}
               aria-label="Decrease quantity"
             >
-              <MinusIcon className="text-violet-500" size={28} />
+              <MinusIcon className="text-[#268DBB]" size={28} />
             </button>
-            <div className="w-36 h-16 text-center border-y border-violet-200 py-2 flex items-center justify-center text-2xl font-medium select-none">
+            <div className="w-36 h-16 text-center border-y border-[#268DBB]-200 py-2 flex items-center justify-center text-2xl font-medium select-none">
               <input
                 type="number"
                 min="1"
@@ -142,27 +142,27 @@ export default function OrderForm() {
             </div>
             <button
               type="button"
-              className="w-16 h-16 text-6xl flex items-center justify-center bg-violet-100 rounded-r-md border border-l-0 border-violet-200 hover:bg-violet-200 transition"
+              className="w-16 h-16 text-6xl flex items-center justify-center bg-[#268DBB]-100 rounded-r-md border border-l-0 border-violet-200 hover:bg-violet-200 transition"
               onClick={() => updateQuantity(quantity + 1)}
               aria-label="Increase quantity"
             >
-              <PlusIcon className="text-violet-500" size={28} />
+              <PlusIcon className="text-[#268DBB]" size={28} />
             </button>
           </div>
         </div>
-        <label className="block font-semibold mb-2 text-xl" htmlFor="PriceInfo">Per unit: USD 70 refundable, USD 5 Admin Fee</label>
+        <label className="block font-semibold mb-2 text-xl text-[#4054A5]" htmlFor="PriceInfo">Per unit: USD 70 refundable, USD 5 Admin Fee</label>
         <div className="bg-violet-50 rounded-lg p-4 mt-6 text-xl">
           <div className="flex justify-between mb-2">
-            <span>Price per unit:</span>
-            <span className="font-medium text-2xl text-violet-700">${Number(UNIT_PRICE).toFixed(2)}</span>
+            <span className="text-[#4054A5]">Price per unit:</span>
+            <span className="font-medium text-2xl text-[#4054A5]">${Number(UNIT_PRICE).toFixed(2)}</span>
           </div>
           <div className="flex justify-between mb-2">
-            <span>Quantity:</span>
-            <span className="font-medium text-2xl text-violet-700">{quantity} units</span>
+            <span className="text-[#4054A5]">Quantity:</span>
+            <span className="font-medium text-2xl text-[#4054A5]">{quantity} units</span>
           </div>
-          <div className="flex justify-between items-center mt-2 pt-2 border-t border-violet-100">
-            <span className="font-bold text-3xl text-violet-700">Total:</span>
-            <span className="font-bold text-3xl text-violet-700">${totalAmount}</span>
+          <div className="flex justify-between items-center mt-2 pt-2 border-t border-[#4054A5]-100">
+            <span className="font-bold text-3xl text-[#4054A5]">Total:</span>
+            <span className="font-bold text-3xl text-[#4054A5]">${totalAmount}</span>
           </div>
         </div>
       </div>
