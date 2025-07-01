@@ -554,15 +554,15 @@ export default function PaymentDetails({
             <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center">
                     <span className="bg-violet-100 p-3 rounded-full mr-4">
-                        <CreditCard className="text-violet-600" size={36} />
+                        <CreditCard className="text-[#4054A5]" size={36} />
                     </span>
-                    <h2 className="text-3xl md:text-4xl font-bold">Payment Details</h2>
+                    <h2 className="text-3xl md:text-4xl text-[#55BD85] font-bold">Payment Details</h2>
                 </div>
                 <div>
                     <button
                         className={`flex items-center text-lg font-bold rounded-full p-3 transition-colors ${isWaitingForSwipe
                             ? 'bg-orange-100 text-orange-600 hover:bg-orange-200'
-                            : 'bg-violet-100 text-gray-500 hover:text-violet-600 hover:bg-violet-200'
+                            : 'bg-violet-100 text-gray-500 hover:text-[#268DBB] hover:bg-violet-200'
                             }`}
                         onClick={handleSwipeClick}
                         disabled={isPaying}
@@ -588,7 +588,7 @@ export default function PaymentDetails({
 
                 {/* Custom Card Fields */}
                 <div className="mb-6">
-                    <label htmlFor="cardholderName" className="block text-xl font-semibold text-gray-700 mb-2">
+                    <label htmlFor="cardholderName" className="block text-xl font-semibold text-gray-700 mb-2 text-[#4054A5]">
                         Full Name
                     </label>
                     <input
@@ -609,7 +609,7 @@ export default function PaymentDetails({
                 </div>
 
                 <div className="mb-6">
-                    <label htmlFor="cardNumber" className="block text-xl font-semibold text-gray-700 mb-2">
+                    <label htmlFor="cardNumber" className="block text-xl font-semibold text-gray-700 mb-2 text-[#4054A5]">
                         Card Number
                     </label>
                     <input
@@ -636,7 +636,7 @@ export default function PaymentDetails({
 
                 <div className="grid grid-cols-2 gap-6 mb-6">
                     <div>
-                        <label htmlFor="expiryDate" className="block text-xl font-semibold text-gray-700 mb-2">
+                        <label htmlFor="expiryDate" className="block text-xl font-semibold text-gray-700 mb-2 text-[#4054A5]">
                             Expiry Date
                         </label>
                         <input
@@ -658,7 +658,7 @@ export default function PaymentDetails({
                     </div>
 
                     <div>
-                        <label htmlFor="cvv" className="block text-xl font-semibold text-gray-700 mb-2">
+                        <label htmlFor="cvv" className="block text-xl font-semibold text-gray-700 mb-2 text-[#4054A5]">
                             CVC
                         </label>
                         <input
@@ -704,7 +704,7 @@ export default function PaymentDetails({
                     )}
                     <label
                         htmlFor="terms"
-                        className="text-lg cursor-pointer"
+                        className="text-lg cursor-pointer text-[#4054A5]"
                         onClick={() => !isPaying && setAgreeTerms(!agreeTerms)}
                     >
                         I agree to the terms and conditions
@@ -716,7 +716,7 @@ export default function PaymentDetails({
                     className={`w-full py-5 mt-6 rounded-xl text-2xl font-bold text-white 
                     ${isPaying
                             ? "bg-gray-500"
-                            : "bg-gradient-to-r from-violet-600 disabled:opacity-50 to-violet-800 hover:from-violet-700 hover:to-violet-900"
+                            : "bg-gradient-to-r from-[#268DBB] disabled:opacity-50 to-[#268DBB] hover:from-[#268DBB] hover:to-[#4054A5]"
                         } transition shadow-lg`}
                     onClick={processPayment}
                     disabled={isPaying || !agreeTerms}
