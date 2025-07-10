@@ -7,19 +7,19 @@ import {
     OrdersController,
 } from "@paypal/paypal-server-sdk";
 
-const { NEXT_PUBLIC_PAYPAL_CLIENT_ID, NEXT_PUBLIC_PAYPAL_CLIENT_SECRET } = process.env;
+const { NEXT_PUBLIC_PAYPAL_SANDBOX_CLIENT_ID, NEXT_PUBLIC_PAYPAL_SANDBOX_CLIENT_SECRET } = process.env;
 
-if (!NEXT_PUBLIC_PAYPAL_CLIENT_ID || !NEXT_PUBLIC_PAYPAL_CLIENT_SECRET) {
+if (!NEXT_PUBLIC_PAYPAL_SANDBOX_CLIENT_ID || !NEXT_PUBLIC_PAYPAL_SANDBOX_CLIENT_SECRET) {
     throw new Error("Missing PayPal credentials");
 }
 
 const client = new Client({
     clientCredentialsAuthCredentials: {
-        oAuthClientId: NEXT_PUBLIC_PAYPAL_CLIENT_ID,
-        oAuthClientSecret: NEXT_PUBLIC_PAYPAL_CLIENT_SECRET,
+        oAuthClientId: NEXT_PUBLIC_PAYPAL_SANDBOX_CLIENT_ID,
+        oAuthClientSecret: NEXT_PUBLIC_PAYPAL_SANDBOX_CLIENT_SECRET,
     },
     timeout: 0,
-    environment: Environment.Production,
+    environment: Environment.Sandbox,
     logging: {
         logLevel: LogLevel.Info,
         logRequest: {
@@ -58,7 +58,7 @@ export async function POST(
     try {
         // Extract orderID using regex
         const url = new URL(request.url);
-        const match = url.pathname.match(/\/api\/orders\/([^\/]+)\/capture/);
+        const match = url.pathname.match(/\/api\/orders-test\/([^\/]+)\/capture/);
         const orderID = match ? match[1] : '';
 
         const { jsonResponse, httpStatusCode } = await captureOrder(orderID);

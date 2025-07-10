@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { CreditCard } from "lucide-react";
 import { toast } from "react-toastify";
-import { subscribeAction } from "@/app/subscribeAction";
+import {  testSubscribeAction } from "@/app/subscribeAction";
 import CardSwipeRaw from "./CardSwipeRaw";
 import { useRouter } from "next/navigation";
 
@@ -29,7 +29,7 @@ interface ErrorState {
     cardholderName: string;
 }
 
-export default function PaymentDetails({
+export default function PaymentDetailsTest({
     total,
     emailAddress,
     validateEmail,
@@ -59,7 +59,6 @@ export default function PaymentDetails({
         cardholderName: ''
     });
     const router = useRouter();
-
     // Add error state management
     const [errors, setErrors] = useState<ErrorState>({
         cardNumber: '',
@@ -85,7 +84,6 @@ export default function PaymentDetails({
 
     // Update isWaitingForSwipe ref when state changes
     React.useEffect(() => {
-        console.log('useEffect: isWaitingForSwipe changed to:', isWaitingForSwipe);
         isWaitingForSwipeRef.current = isWaitingForSwipe;
     }, [isWaitingForSwipe]);
 
@@ -109,11 +107,7 @@ export default function PaymentDetails({
     const handleExpiryDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const input = e.target.value;
         const cursorPosition = e.target.selectionStart || 0;
-
-        // Remove all non-digits
         const digitsOnly = input.replace(/\D/g, '');
-
-        // Handle different lengths
         let formatted = '';
         if (digitsOnly.length === 0) {
             formatted = '';
@@ -124,40 +118,27 @@ export default function PaymentDetails({
         } else if (digitsOnly.length === 3) {
             formatted = `${digitsOnly.slice(0, 2)}/${digitsOnly.slice(2, 3)}`;
         } else if (digitsOnly.length >= 4) {
-            // Limit to 4 digits max: MMYY format
             const month = digitsOnly.slice(0, 2);
             const year = digitsOnly.slice(2, 4);
             formatted = `${month}/${year}`;
         }
-
-        // Update the card data
         handleCardDataChange('expiryDate', formatted);
-
-        // Handle cursor position after formatting
         setTimeout(() => {
             const inputElement = e.target;
             let newCursorPosition = cursorPosition;
-
-            // Adjust cursor position based on formatting changes
             if (digitsOnly.length === 3 && cursorPosition >= 2) {
-                // After adding slash for 3rd digit
-                newCursorPosition = 4; // Position after "MM/Y"
+                newCursorPosition = 4;
             } else if (digitsOnly.length >= 4 && cursorPosition >= 4) {
-                // After formatting MMYY to MM/YY
-                newCursorPosition = 5; // Position after "MM/YY"
+                newCursorPosition = 5;
             }
-
             inputElement.setSelectionRange(newCursorPosition, newCursorPosition);
         }, 0);
     };
 
-    // Handle keydown events for better UX
     const handleExpiryKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         const input = e.currentTarget;
         const cursorPosition = input.selectionStart || 0;
         const value = input.value;
-
-        // Handle backspace at the slash position
         if (e.key === 'Backspace' && cursorPosition === 3 && value.charAt(2) === '/') {
             e.preventDefault();
             const newValue = value.slice(0, 2);
@@ -165,9 +146,7 @@ export default function PaymentDetails({
             setTimeout(() => {
                 input.setSelectionRange(2, 2);
             }, 0);
-        }
-        // Handle delete at position before slash
-        else if (e.key === 'Delete' && cursorPosition === 2 && value.charAt(2) === '/') {
+        } else if (e.key === 'Delete' && cursorPosition === 2 && value.charAt(2) === '/') {
             e.preventDefault();
             const newValue = value.slice(0, 2) + value.slice(4);
             const digitsOnly = newValue.replace(/\D/g, '');
@@ -179,14 +158,11 @@ export default function PaymentDetails({
         }
     };
 
-    // Handle card data changes with validation
     const handleCardDataChange = (field: keyof CardData, value: string) => {
         setCardData(prev => ({
             ...prev,
             [field]: value
         }));
-
-        // Clear error when user starts typing
         if (errors[field]) {
             setErrors(prev => ({
                 ...prev,
@@ -195,7 +171,6 @@ export default function PaymentDetails({
         }
     };
 
-    // Validate individual field
     const validateField = (field: keyof CardData, value: string): string => {
         switch (field) {
             case 'cardholderName':
@@ -217,7 +192,6 @@ export default function PaymentDetails({
                 const yearNum = parseInt(year, 10);
                 if (monthNum < 1 || monthNum > 12) return "Please enter a valid month (01-12)";
                 if (yearNum < 0 || yearNum > 99) return "Please enter a valid year";
-                // Check if card is expired
                 const currentDate = new Date();
                 const currentYear = currentDate.getFullYear() % 100;
                 const currentMonth = currentDate.getMonth() + 1;
@@ -235,7 +209,6 @@ export default function PaymentDetails({
         }
     };
 
-    // Validate all card data
     const validateCardData = (): boolean => {
         const newErrors: ErrorState = {
             cardholderName: validateField('cardholderName', cardData.cardholderName),
@@ -243,47 +216,21 @@ export default function PaymentDetails({
             expiryDate: validateField('expiryDate', cardData.expiryDate),
             cvv: validateField('cvv', cardData.cvv)
         };
-
         setErrors(newErrors);
-
-        // Return true if no errors
         return !Object.values(newErrors).some(error => error !== '');
     };
 
-    // Parse magnetic stripe data from card reader
     function parseSwipeData(rawData: string): CardDetails {
-        console.log('Raw swipe data:', rawData);
-
-        // Track 1 pattern: %B<cardnumber>^<NAME>^<YYMM>...
-        const track1Pattern = /^%B(\d{13,19})\^([^^]*)\^(\d{2})(\d{2})/;
-        // Track 2 pattern: ;<cardnumber>=YYMM...
+        const track1Pattern = /^%B(\d{13,19})\^([^\^]*)\^(\d{2})(\d{2})/;
         const track2Pattern = /^;(\d{13,19})=(\d{2})(\d{2})/;
-
         let match = track1Pattern.exec(rawData);
-        console.log('Track 1 match:', match);
-
         if (match) {
             const [, cardNumber, name, expYear, expMonth] = match;
-            console.log('Parsed Track 1 data:', {
-                cardNumber,
-                name,
-                expYear,
-                expMonth
-            });
-
-            // Format name: handle both "LAST/FIRST" and "FIRST LAST" formats
             let formattedName = name.trim();
             if (formattedName.includes('/')) {
-                // Convert "LAST/FIRST" to "FIRST LAST"
                 const [last, first] = formattedName.split('/');
                 formattedName = `${first.trim()} ${last.trim()}`;
             }
-            console.log('Formatted name:', formattedName);
-
-            // Format expiry date as MM/YY
-            const formattedExpiry = `${expMonth}/${expYear}`;
-            console.log('Formatted expiry:', formattedExpiry);
-
             return {
                 cardNumber,
                 expMonth,
@@ -291,96 +238,62 @@ export default function PaymentDetails({
                 name: formattedName
             };
         }
-
         match = track2Pattern.exec(rawData);
-        console.log('Track 2 match:', match);
-
         if (match) {
             const [, cardNumber, expYear, expMonth] = match;
-            console.log('Parsed Track 2 data:', {
-                cardNumber,
-                expYear,
-                expMonth
-            });
-
             return {
                 cardNumber,
                 expMonth,
                 expYear
             };
         }
-
         throw new Error('Card data format not recognized');
     }
 
-    // Process the swiped card data
     const processSwipeData = (swipeData: string) => {
-        console.log('processSwipeData called with:', swipeData);
         try {
-            // Ensure swipeData is treated as a string
             const rawDataString = String(swipeData);
-            console.log('Raw data as string:', rawDataString);
-
             const parsedData = parseSwipeData(rawDataString);
-            console.log('Successfully parsed card data:', parsedData);
-
             if (parsedData) {
-                // Format the expiry date as MM/YY, ensuring year is included
                 const formattedExpiryDate = `${parsedData.expMonth}/${parsedData.expYear}`;
-                console.log('Formatted expiry date:', formattedExpiryDate);
-
-                // Auto-fill the form with swiped card data
-                setCardData(prevData => {
-                    const newData = {
-                        ...prevData,
-                        cardNumber: parsedData.cardNumber,
-                        expiryDate: formattedExpiryDate,
-                        cardholderName: parsedData.name || prevData.cardholderName
-                    };
-                    console.log('Setting card data to:', newData);
-                    return newData;
-                });
-
-                // Clear any existing errors for the fields we just filled
+                setCardData(prevData => ({
+                    ...prevData,
+                    cardNumber: parsedData.cardNumber,
+                    expiryDate: formattedExpiryDate,
+                    cardholderName: parsedData.name || prevData.cardholderName
+                }));
                 setErrors(prevErrors => ({
                     ...prevErrors,
                     cardNumber: '',
                     expiryDate: '',
                     cardholderName: parsedData.name ? '' : prevErrors.cardholderName,
                 }));
-
                 toast.success('Card swiped successfully!', {
                     position: "top-right",
                     autoClose: 3000,
                 });
             }
         } catch (error) {
-            console.error('Error processing swipe data:', error);
             toast.error('Failed to read card data. Please try again or enter manually.', {
                 position: "top-right",
                 autoClose: 4000,
             });
         }
-
-        console.log('processSwipeData: setting isWaitingForSwipe to false');
         setIsWaitingForSwipe(false);
         isWaitingForSwipeRef.current = false;
     };
 
-    // Initialize CardSwipeRaw when component mounts
     useEffect(() => {
         cardSwipeRef.current = new CardSwipeRaw({
-            enabled: false, // Start disabled
+            enabled: false,
             onScan: (data: string[]) => {
                 if (isWaitingForSwipeRef.current) {
                     const swipeData = data.join('');
-                    console.log('Card swipe detected:', swipeData);
                     processSwipeData(swipeData);
                 }
             },
-            debug: true // Enable debug logging
+            debug: true
         });
-
         return () => {
             if (cardSwipeRef.current) {
                 cardSwipeRef.current.disable();
@@ -388,12 +301,8 @@ export default function PaymentDetails({
         };
     }, []);
 
-    // Handle swipe button click
     const handleSwipeClick = () => {
-        console.log('handleSwipeClick: current isWaitingForSwipe =', isWaitingForSwipe);
         if (isWaitingForSwipe) {
-            // Cancel swipe mode
-            console.log('Canceling swipe mode');
             setIsWaitingForSwipe(false);
             isWaitingForSwipeRef.current = false;
             if (cardSwipeRef.current) {
@@ -401,19 +310,13 @@ export default function PaymentDetails({
             }
             return;
         }
-
-        console.log('Starting swipe mode - ready for card reader input');
         setIsWaitingForSwipe(true);
         isWaitingForSwipeRef.current = true;
-
         if (cardSwipeRef.current) {
             cardSwipeRef.current.enable();
         }
-
-        // Show timeout after 30 seconds
         setTimeout(() => {
             if (isWaitingForSwipeRef.current) {
-                console.log('Timeout: canceling swipe');
                 setIsWaitingForSwipe(false);
                 isWaitingForSwipeRef.current = false;
                 if (cardSwipeRef.current) {
@@ -428,7 +331,7 @@ export default function PaymentDetails({
     };
 
     const createOrder = useCallback(async () => {
-        const response = await fetch("/api/orders", {
+        const response = await fetch("/api/orders-test", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -442,42 +345,30 @@ export default function PaymentDetails({
                 card: cardData
             }),
         });
-
         const orderData = await response.json();
-
         if (!orderData.id) {
             const errorDetail = orderData?.details?.[0];
             const errorMessage = errorDetail
                 ? `${errorDetail.issue} ${errorDetail.description} (${orderData.debug_id})`
                 : JSON.stringify(orderData);
-
             throw new Error(errorMessage);
         }
         return orderData;
-
     }, [cardData]);
 
     const processPayment = useCallback(async () => {
         try {
-            // Validate both email and card data together
             const isEmailValid = await validateEmail();
             const isCardValid = validateCardData();
-
-            // If either validation fails, stop here (errors are already displayed)
             if (!isEmailValid || !isCardValid) {
                 return;
             }
-
             setIsPaying(true);
-
-            // Create order first
             const orderData = await createOrder();
-
             const transaction =
                 orderData?.purchase_units?.[0]?.payments?.captures?.[0] ||
                 orderData?.purchase_units?.[0]?.payments?.authorizations?.[0];
             const errorDetail = orderData?.details?.[0];
-
             if (errorDetail || !transaction || transaction.status === "DECLINED") {
                 let errorMessage;
                 if (transaction) {
@@ -489,8 +380,7 @@ export default function PaymentDetails({
                 }
                 throw new Error(errorMessage);
             } else {
-                // Success - save subscription
-                subscribeAction({
+              testSubscribeAction({
                     email: emailRef.current,
                     quantity: quantityRef.current,
                     userName: cardData.cardholderName,
@@ -499,7 +389,6 @@ export default function PaymentDetails({
                     transactionDetails: JSON.stringify(orderData),
                     datetime: new Date().toISOString()
                 });
-
                 await fetch('api/mail', {
                     method: 'POST',
                     headers: {
@@ -520,8 +409,6 @@ export default function PaymentDetails({
                     closeOnClick: true,
                     draggable: true,
                 });
-
-                // Reset form and agreement only on successful payment
                 if (resetForm) {
                     resetForm();
                 }
@@ -546,7 +433,6 @@ export default function PaymentDetails({
                 closeOnClick: true,
                 draggable: true,
             });
-            console.error("Payment error:", error);
         } finally {
             setIsPaying(false);
         }
@@ -559,7 +445,7 @@ export default function PaymentDetails({
                     <span className="bg-violet-100 p-3 rounded-full mr-4">
                         <CreditCard className="text-[#4054A5]" size={36} />
                     </span>
-                    <h2 className="text-3xl md:text-4xl text-[#55BD85] font-bold">Payment Details</h2>
+                    <h2 className="text-3xl md:text-4xl text-[#55BD85] font-bold">Payment Details (Test)</h2>
                 </div>
                 <div>
                     <button
@@ -574,7 +460,7 @@ export default function PaymentDetails({
                     </button>
                 </div>
             </div>
-
+            
             <div className="mt-6 space-y-6">
                 {/* Swipe Mode Indicator */}
                 {isWaitingForSwipe && (
@@ -729,4 +615,4 @@ export default function PaymentDetails({
             </div>
         </div>
     );
-}
+} 
