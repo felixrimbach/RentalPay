@@ -11,7 +11,10 @@ export default function TestPage() {
       <main className="flex-1 flex flex-col items-center justify-center px-6 w-screen my-10 md:my-0">
         <OrderFormTest />
       </main>
-              <div id="google_translate_element"></div>
+      <footer className="text-center text-gray-500 text-sm py-6 bg-white">
+        <p><a href="/terms" className="underline">Terms</a></p><br/>
+        © Globibo Events.Studio. All rights reserved.
+        <div id="google_translate_element"></div>
         <script type="text/javascript">
           function googleTranslateElementInit() {
             new google.translate.TranslateElement(
@@ -20,12 +23,8 @@ export default function TestPage() {
             );
           }
         </script>
-        <script type="text/javascript" 
-          src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
         </script>
-      <footer className="text-center text-gray-500 text-sm py-6 bg-white">
-        <p><a href="/terms" className="underline">Terms</a></p><br/>
-        © Globibo Events.Studio. All rights reserved.
       </footer>
     </div>
   );
