@@ -162,3 +162,33 @@ body {
   padding-top: 1rem;
   border-top: 2px solid var(--border-color);
 }
+
+.goog-te-gadget-icon {
+  display: none !important;
+}
+
+.goog-te-gadget-simple{
+  display: ruby-text !important;
+}
+/* Mobile: default font size */
+.VIpgJd-ZVi9od-xl07Ob-lTBxed span {
+  font-size: 16px !important;
+}
+
+/* Desktop: font size 22px for larger screens */
+@media (min-width: 768px) {
+  .VIpgJd-ZVi9od-xl07Ob-lTBxed span {
+    font-size: 22px !important;
+  }
+}
+.VIpgJd-yAWNEb-L7lbkb .skiptranslate{
+  display: none !important;
+}
+.VIpgJd-ZVi9od-xl07Ob-OEVmcd  {
+  max-height: 300px !important;
+  overflow-y: auto !important;
+}
+
+.VIpgJd-ZVi9od-ORHb-OEVmcd .skiptranslate{
+  visibility: hidden !important;
+}
