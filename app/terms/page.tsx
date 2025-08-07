@@ -12,10 +12,10 @@ export default function TermsPage() {
           <h2 className="text-2xl font-bold mb-4 text-[#4054A5]">Device Rental & Payment Terms and Conditions</h2>
           <ol className="list-decimal pl-6 text-lg text-gray-700 space-y-4">
             <li>
-              <strong>Rental Agreement:</strong> By renting a device from Globibo Events.Studio, you agree to abide by these Terms & Conditions. The rental period, fees, and return date will be specified at the time of booking.
+              <strong>Rental Agreement:</strong> By renting a device, you agree to abide by these Terms & Conditions. The rental period, fees, and return date will be specified at the time of booking.
             </li>
             <li>
-              <strong>Payment:</strong> Full payment is required prior to the release of any device. Payment can be made via the methods specified on our website. All prices are in USD unless otherwise stated.
+              <strong>Payment:</strong> Full payment is required prior to the release of any device. A device consists of a smartphone, one headset, and a charger cable with a plug in a box. Payment can be made via the methods specified on our website. All prices are in USD unless otherwise stated.
             </li>
             <li>
               <strong>Security Deposit:</strong> A security deposit may be required for each device rented. The deposit will be refunded upon return of the device in good working condition, subject to inspection.
@@ -30,10 +30,10 @@ export default function TermsPage() {
               <strong>Cancellation & Refunds:</strong> Cancellations must be made at least 24 hours before the rental start date for a full refund. No refunds will be issued for cancellations made after this period or for early returns.
             </li>
             <li>
-              <strong>Liability:</strong> Globibo Events.Studio is not liable for any indirect, incidental, or consequential damages arising from the use or inability to use the rented device.
+              <strong>Liability:</strong> Globibo is not liable for any indirect, incidental, or consequential damages arising from the use or inability to use the rented device. The user is responsible for charging the device safely. 
             </li>
             <li>
-              <strong>Privacy:</strong> Personal information collected during the rental process will be handled in accordance with our Privacy Policy and will not be shared with third parties except as required by law.
+              <strong>Privacy:</strong> Personal information collected during the rental process will be handled in accordance with our Privacy Policy and will not be shared with third parties except as required by law. All saved informatoin will be distroyed after 3 months of the time of rental.
             </li>
             <li>
               <strong>Contact:</strong> For any questions or concerns regarding these terms, please contact us at <a href="mailto:payment@globibo.com" className="text-blue-600 underline">payment@globibo.com</a>.
