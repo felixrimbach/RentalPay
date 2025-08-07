@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
                     <base target="_top">
                     </head>
                     <body>
-                    <p style="font-size: 16pt; text-align: left;">Receipt</p>
+                    <p style="font-size: 16pt; text-align: left;">Mini-Device Rental Receipt</p>
                     <p style="font-size: 16pt; text-align: left;"></p>
                     <p style="font-size: 16pt; text-align: left;">Dear ${userName},</p>
                     <p style="font-size: 16pt; text-align: left;">This is to confirm that your payment of ${totalPrice} USD for ${quantity} unit(s) has been received.</p>
@@ -37,11 +37,11 @@ export async function POST(request: NextRequest) {
                     Transaction ID: ${transactionId}
                     Date / Time: ${formatted}
                     </div>
-                    <p style="font-size: 16pt; text-align: left;">Please note that USD 70 per device will be refunded once the device(s) is/are returned in a good condition.</p>
+                    <p style="font-size: 16pt; text-align: left;">Please note that USD 70 per device will be refunded once the device(s) is/are returned in a good condition. In order to receive the refund, you must return the device on August 27 by 12PM Macau time at Main Platform.</p>
                     <p style="font-size: 16pt; text-align: left;">If you have any questions or concerns, please contact us at <a href="mailto:payment@globibo.com">payment@globibo.com</a>.</p>
                     <p style="font-size: 16pt; text-align: left;">Thank you for your business.</p>
                     <p style="font-size: 16pt; text-align: left;"></p>                    
-                    <p style="font-size: 16pt; text-align: left;">Globibo Pte. Ltd. / 114 Lavender Street 06-63 / 338729 Singapore</p>
+                    <p style="font-size: 16pt; text-align: left;">Globibo Pte. Ltd. (on behalf of MDRT) / 114 Lavender Street 06-63 / 338729 Singapore</p>
                     </body>
                     </html>
                     `
@@ -49,8 +49,8 @@ export async function POST(request: NextRequest) {
         const msg = {
             to: email,
             from: 'payment@globibo.com', // Change to your verified sender
-            subject: 'Receipt: Your Payment has been received',
-            text: 'Receipt: Your Payment has been received',
+            subject: 'Receipt: Your Payment has been received (Device Rental)',
+            text: 'Receipt: Your Payment has been received (Device Rental)',
             html: html,
         };
 
