@@ -149,7 +149,7 @@ export default function OrderFormTest() {
             </button>
           </div>
         </div>
-        <label className="block font-semibold mb-2 text-xl text-[#4054A5]" htmlFor="PriceInfo">Per unit: USD 70 refundable, USD 5 Admin Fee</label>
+        <label className="block font-semibold mb-2 text-xl text-[#4054A5]" htmlFor="PriceInfo">Per unit: USD 70 refundable, USD 5 Admin Fee (4 days rental)</label>
         <div className="bg-violet-50 rounded-lg p-4 mt-6 text-xl">
           <div className="flex justify-between mb-2">
             <span className="text-[#4054A5]">Price per unit:</span>
