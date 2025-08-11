@@ -49,8 +49,8 @@ export async function POST(request: NextRequest) {
         const msg = {
             to: email,
             from: 'payment@globibo.com', // Change to your verified sender
-            subject: 'Receipt: Your Payment has been received (Device Rental)',
-            text: 'Receipt: Your Payment has been received (Device Rental)',
+            subject: 'Receipt: Your Payment has been received (Mini-Device Rental at MDRT GC 2025)',
+            text: 'Receipt: Your Payment has been received (Mini-Device Rental at MDRT GC 2025)',
             html: html,
         };
 
