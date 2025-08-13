@@ -64,7 +64,7 @@ export const subscribeAction = async (formData: any) => {
 };
 
 export const testSubscribeAction = async (formData: any) => {
-
+    console.log("testSubscribeAction called with formData:", formData);
     const spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID_TEST;
     if (!spreadsheetId) {
         return {
@@ -74,10 +74,10 @@ export const testSubscribeAction = async (formData: any) => {
     }
 
     const rawData = {
-        email: formData.email + "testing",
+        email: formData.email,
         quantity: formData.quantity,
         totalPrice: formData.totalPrice,
-        userName: formData.userName + formData.id,
+        userName: formData.userName,
         transactionId: formData.transactionId,
         transactionDetails: formData.transactionDetails,
         datetime: formData.datetime,
@@ -107,7 +107,7 @@ export const testSubscribeAction = async (formData: any) => {
         // Append new row at the end
         await sheets.spreadsheets.values.append({
             spreadsheetId,
-            range: `A${lastRow + 1}:G${lastRow + 1}`,
+            range: `A${lastRow + 1}:I${lastRow + 1}`,
             valueInputOption: "USER_ENTERED",
             requestBody: {
                 values: [[rawData.email, rawData.userName, rawData.quantity, rawData.totalPrice, rawData.transactionId, rawData.transactionDetails, rawData.datetime, rawData.id, rawData.name]],
