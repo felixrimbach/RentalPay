@@ -72,7 +72,7 @@ export const testSubscribeAction = async (formData: any) => {
             errors: ["There was an error connecting to google."],
         };
     }
-
+    console.log("Form Data:", formData);
     const rawData = {
         email: formData.email,
         quantity: formData.quantity,
@@ -81,8 +81,8 @@ export const testSubscribeAction = async (formData: any) => {
         transactionId: formData.transactionId,
         transactionDetails: formData.transactionDetails,
         datetime: formData.datetime,
-        id: formData.idRef,
-        name: formData.nameRef
+        custId: formData.custId,
+        custName: formData.custName
     };
 
     try {
@@ -109,7 +109,7 @@ export const testSubscribeAction = async (formData: any) => {
             range: `A${lastRow + 1}:I${lastRow + 1}`,
             valueInputOption: "USER_ENTERED",
             requestBody: {
-                values: [[rawData.email, rawData.userName, rawData.quantity, rawData.totalPrice, rawData.transactionId, rawData.transactionDetails, rawData.datetime, rawData.id, "rawDataname"]],
+                values: [[rawData.email, rawData.userName, rawData.quantity, rawData.totalPrice, rawData.transactionId, rawData.transactionDetails, rawData.datetime, rawData.custId, rawData.custName]],
             },
         });
 

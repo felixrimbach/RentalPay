@@ -9,8 +9,8 @@ import PaymentDetailsTest from './PaymentDetailsTest'
 
 const formSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
-  id: z.string().optional(),    // <-- Make optional
-  name: z.string().optional(),  // <-- Make optional
+  custId: z.string().optional(),    // <-- Make optional
+  custName: z.string().optional(),  // <-- Make optional
   quantity: z.number().min(1, "Quantity must be at least 1"),
   cardholderName: z.string().min(2, "Please enter the cardholder name"),
   cardNumber: z.string().refine(
@@ -41,14 +41,14 @@ export default function OrderFormTest() {
   const [quantity, setQuantity] = useState(Number(DEFAULT_QUANTITY));
   const total = quantity * Number(UNIT_PRICE);
   const [agreeTerms, setAgreeTerms] = useState(false);
-  const [id, setId] = useState('');
-  const [name, setName] = useState('');
+  const [customerId, setId] = useState('');
+  const [customerName, setName] = useState('');
   const { register, formState: { errors }, handleSubmit, setValue, trigger, watch, reset } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
-      id: "",
-      name: "",
+      custId: "",
+      custName: "",
       quantity: Number(DEFAULT_QUANTITY),
       cardholderName: "",
       cardNumber: "",
@@ -60,8 +60,8 @@ export default function OrderFormTest() {
 
   // Watch the email field from the form
   const watchedEmail = watch("email");
-  const watchedId = watch("id");
-  const watchedName = watch("name");
+  const watchedId = watch("custId");
+  const watchedName = watch("custName");
   
   // Update the email state whenever the form email changes
   React.useEffect(() => {
@@ -85,14 +85,14 @@ export default function OrderFormTest() {
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newId = e.target.value;
     setId(newId);
-    setValue("id", newId);
-    trigger("id");
+    setValue("custId", newId);
+    trigger("custId");
   };
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newName = e.target.value;
     setName(newName);
-    setValue("name", newName);
-    trigger("name");
+    setValue("custName", newName);
+    trigger("custName");
   };
   const updateQuantity = (newQuantity: number) => {
     const validQuantity = Math.max(1, newQuantity);
@@ -115,6 +115,8 @@ export default function OrderFormTest() {
     setEmailAddress('');
     setQuantity(1);
     setAgreeTerms(false);
+    setId('');
+    setName('');
   };
 
   return (
@@ -150,12 +152,12 @@ export default function OrderFormTest() {
             <div className="flex-1">
               <label className="block font-semibold mb-2 text-xl text-[#4054A5]" htmlFor="id">ID</label>
               <input
-               {...register("id")}
-                id="id"
+               {...register("custId")}
+                id="custId"
                 type="text"
                 placeholder="Enter your ID"
                 onChange={handleIdChange}
-                className={`w-full p-4 text-lg border-2 rounded-lg focus:outline-none ${errors.id
+                className={`w-full p-4 text-lg border-2 rounded-lg focus:outline-none ${errors.custId
                   ? 'border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500'
                   : 'border-violet-200 focus:border-violet-500'
                   }`}
@@ -165,12 +167,12 @@ export default function OrderFormTest() {
             <div className="flex-1">
               <label className="block font-semibold mb-2 text-xl text-[#4054A5]" htmlFor="name">Name</label>
               <input
-               {...register("name")}
-                id="name"
+               {...register("custName")}
+                id="custName"
                 type="text"
                 placeholder="Enter your name"
                 onChange={handleNameChange}
-                className={`w-full p-4 text-lg border-2 rounded-lg focus:outline-none ${errors.name
+                className={`w-full p-4 text-lg border-2 rounded-lg focus:outline-none ${errors.custName
                   ? 'border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500'
                   : 'border-violet-200 focus:border-violet-500'
                   }`}
@@ -226,9 +228,9 @@ export default function OrderFormTest() {
       </div>
       <PaymentDetailsTest
         total={total}
-        emailAddress={emailAddress}
-        idReq = {id}
-        nameReq ={name}   
+        emailAddress={emailAddress} 
+        customerId={customerId}
+        customerName={customerName}
         quantity={quantity}
         validateEmail={async () => {
           const result = await trigger("email");
