@@ -395,8 +395,8 @@ export default function PaymentDetailsTest({
                     transactionId: transaction.id,
                     transactionDetails: JSON.stringify(orderData),
                     datetime: new Date().toISOString(),
-                    custId: customerId,
-                    custName: customerName
+                    custId: idRef.current,
+                    custName: nameRef.current
                 });
                 await fetch('api/mail', {
                     method: 'POST',
