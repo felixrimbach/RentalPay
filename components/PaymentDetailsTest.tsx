@@ -83,11 +83,17 @@ export default function PaymentDetailsTest({
     // Update refs when props change
     React.useEffect(() => {
         emailRef.current = emailAddress;
-        idRef.current = customerId;
-        nameRef.current = customerName;
         quantityRef.current = quantity;
         totalRef.current = total;
-    }, [emailAddress, idRef,nameRef,quantity, total]);
+    }, [emailAddress,quantity, total]);
+    
+    React.useEffect(() => {
+        idRef.current = customerId;
+    }, [idRef]);
+    
+    React.useEffect(() => {
+        nameRef.current = customerName;
+    }, [nameRef]);
 
     // Update isWaitingForSwipe ref when state changes
     React.useEffect(() => {
