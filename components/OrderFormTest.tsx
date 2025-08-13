@@ -68,13 +68,19 @@ export default function OrderFormTest() {
     if (watchedEmail) {
       setEmailAddress(watchedEmail);
     }
+  }, [watchedEmail]);
+
+  React.useEffect(() => {
     if (watchedId) {
       setId(watchedId);
     }
+  }, [watchedId]);
+
+  React.useEffect(() => {
     if (watchedName) {
       setName(watchedName);
     }
-  }, [watchedEmail,watchedId,watchedName]);
+  }, [watchedName]);
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newEmail = e.target.value;
