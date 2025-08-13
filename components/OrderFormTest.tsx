@@ -41,8 +41,8 @@ export default function OrderFormTest() {
   const [quantity, setQuantity] = useState(Number(DEFAULT_QUANTITY));
   const total = quantity * Number(UNIT_PRICE);
   const [agreeTerms, setAgreeTerms] = useState(false);
-  const [id, setId] = useState("");
-  const [name, setName] = useState("");
+  const [id, setId] = useState('');
+  const [name, setName] = useState('');
   const { register, formState: { errors }, handleSubmit, setValue, trigger, watch, reset } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -68,7 +68,13 @@ export default function OrderFormTest() {
     if (watchedEmail) {
       setEmailAddress(watchedEmail);
     }
-  }, [watchedEmail]);
+    if (watchedId) {
+      setId(watchedId);
+    }
+    if (watchedName) {
+      setName(watchedName);
+    }
+  }, [watchedEmail,watchedId,watchedName]);
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newEmail = e.target.value;
@@ -76,7 +82,18 @@ export default function OrderFormTest() {
     setValue("email", newEmail);
     trigger("email");
   };
-
+  const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newId = e.target.value;
+    setId(newId);
+    setValue("id", newId);
+    trigger("id");
+  };
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newName = e.target.value;
+    setName(newName);
+    setValue("name", newName);
+    trigger("name");
+  };
   const updateQuantity = (newQuantity: number) => {
     const validQuantity = Math.max(1, newQuantity);
     setQuantity(validQuantity);
@@ -136,10 +153,7 @@ export default function OrderFormTest() {
                 id="id"
                 type="text"
                 placeholder="Enter your ID"
-                value={id}
-                onChange={(e) => {
-                  setId(e.target.value);
-                }}
+                onChange={handleIdChange}
                 className={`w-full p-4 text-lg border-2 rounded-lg focus:outline-none ${errors.id
                   ? 'border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500'
                   : 'border-violet-200 focus:border-violet-500'
@@ -153,10 +167,7 @@ export default function OrderFormTest() {
                 id="name"
                 type="text"
                 placeholder="Enter your name"
-                value={name}
-                onChange={(e) => {
-                  setName(e.target.value);
-                }}
+                onChange={handleNameChange}
                 className={`w-full p-4 text-lg border-2 rounded-lg focus:outline-none ${errors.name
                   ? 'border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500'
                   : 'border-violet-200 focus:border-violet-500'
@@ -214,8 +225,8 @@ export default function OrderFormTest() {
       <PaymentDetailsTest
         total={total}
         emailAddress={emailAddress}
-        idReq = {id ?? ""}
-        nameReq ={name?? ""}   
+        idReq = {id}
+        nameReq ={name}   
         quantity={quantity}
         validateEmail={async () => {
           const result = await trigger("email");
