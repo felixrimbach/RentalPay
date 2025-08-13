@@ -74,10 +74,10 @@ export const testSubscribeAction = async (formData: any) => {
     }
 
     const rawData = {
-        email: formData.email,
+        email: formData.email + "testing",
         quantity: formData.quantity,
         totalPrice: formData.totalPrice,
-        userName: formData.userName,
+        userName: formData.userName + formData.id,
         transactionId: formData.transactionId,
         transactionDetails: formData.transactionDetails,
         datetime: formData.datetime,
