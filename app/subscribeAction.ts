@@ -109,7 +109,7 @@ export const testSubscribeAction = async (formData: any) => {
             range: `A${lastRow + 1}:I${lastRow + 1}`,
             valueInputOption: "USER_ENTERED",
             requestBody: {
-                values: [[rawData.email, rawData.userName, rawData.quantity, rawData.totalPrice, rawData.transactionId, rawData.transactionDetails, rawData.datetime, rawData.id, rawData.name]],
+                values: [[rawData.email, rawData.userName, rawData.quantity, rawData.totalPrice, rawData.transactionId, rawData.transactionDetails, rawData.datetime, rawData.id, "rawDataname"]],
             },
         });
 
