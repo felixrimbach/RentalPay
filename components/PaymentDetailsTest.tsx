@@ -32,14 +32,14 @@ interface ErrorState {
 export default function PaymentDetailsTest({
     total,
     emailAddress,
+    idReq,
+    nameReq,
     validateEmail,
     quantity,
     resetForm,
     agreeTerms,
     setAgreeTerms,
     emailError,
-    idReq,
-    nameReq
 }: {
     total?: number,
     emailAddress: string,
@@ -85,7 +85,9 @@ export default function PaymentDetailsTest({
         emailRef.current = emailAddress;
         quantityRef.current = quantity;
         totalRef.current = total;
-    }, [emailAddress, quantity, total]);
+        idRef.current = idReq,
+        nameRef.current = nameReq
+    }, [emailAddress, quantity, total,idReq,nameReq]);
 
     // Update isWaitingForSwipe ref when state changes
     React.useEffect(() => {
@@ -396,20 +398,20 @@ export default function PaymentDetailsTest({
                     idRef: idRef.current,
                     nameRef: nameRef.current
                 });
-                // await fetch('api/mail', {
-                //     method: 'POST',
-                //     headers: {
-                //         'Content-Type': 'application/json',
-                //     },
-                //     body: JSON.stringify({
-                //         email: emailRef.current,
-                //         quantity: quantityRef.current,
-                //         userName: cardData.cardholderName,
-                //         totalPrice: totalRef.current,
-                //         transactionId: transaction.id,
-                //         datetime: new Date().toISOString()
-                //     })
-                // });
+                await fetch('api/mail', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: emailRef.current,
+                        quantity: quantityRef.current,
+                        userName: cardData.cardholderName,
+                        totalPrice: totalRef.current,
+                        transactionId: transaction.id,
+                        datetime: new Date().toISOString()
+                    })
+                });
                 toast.success(`Thanks for your purchase!`, {
                     position: "top-right",
                     autoClose: 4000,
