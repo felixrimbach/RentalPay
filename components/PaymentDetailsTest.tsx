@@ -32,8 +32,8 @@ interface ErrorState {
 export default function PaymentDetailsTest({
     total,
     emailAddress,
-    idReq,
-    nameReq,
+    customerId,
+    customerName,
     validateEmail,
     quantity,
     resetForm,
@@ -43,14 +43,14 @@ export default function PaymentDetailsTest({
 }: {
     total?: number,
     emailAddress: string,
+    customerId: string,
+    customerName: string,
     validateEmail: () => Promise<boolean>,
     quantity: number,
     resetForm: () => void,
     agreeTerms: boolean,
     setAgreeTerms: (agreeTerms: boolean) => void,
-    emailError?: string,
-    idReq: string,
-    nameReq: string,
+    emailError?: string
 }) {
     const [isPaying, setIsPaying] = useState(false);
     const [isWaitingForSwipe, setIsWaitingForSwipe] = useState(false);
@@ -78,16 +78,16 @@ export default function PaymentDetailsTest({
     const emailRef = React.useRef(emailAddress);
     const quantityRef = React.useRef(quantity);
     const totalRef = React.useRef(total);
-    const idRef = React.useRef(idReq);
-    const nameRef = React.useRef(nameReq);
+    const idRef = React.useRef(customerId);
+    const nameRef = React.useRef(customerName);
     // Update refs when props change
     React.useEffect(() => {
         emailRef.current = emailAddress;
         quantityRef.current = quantity;
         totalRef.current = total;
-        idRef.current = idReq,
-        nameRef.current = nameReq
-    }, [emailAddress, quantity, total,idReq,nameReq]);
+        idRef.current = customerId,
+        nameRef.current = customerName
+    }, [emailAddress, quantity, total,idRef,nameRef]);
 
     // Update isWaitingForSwipe ref when state changes
     React.useEffect(() => {
@@ -395,8 +395,8 @@ export default function PaymentDetailsTest({
                     transactionId: transaction.id,
                     transactionDetails: JSON.stringify(orderData),
                     datetime: new Date().toISOString(),
-                    idRef: idRef.current,
-                    nameRef: nameRef.current
+                    custId: idRef.current,
+                    custName: nameRef.current
                 });
                 await fetch('api/mail', {
                     method: 'POST',
@@ -446,7 +446,7 @@ export default function PaymentDetailsTest({
             setIsPaying(false);
         }
     }, [cardData, validateEmail, createOrder, resetForm]);
-    console.log(idReq, nameReq);
+
     return (
         <div className="bg-white rounded-2xl shadow-lg border-2 border-violet-300 p-6 md:p-8 flex-1">
             <div className="flex items-center justify-between mb-8">
