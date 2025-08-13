@@ -150,6 +150,7 @@ export default function OrderFormTest() {
             <div className="flex-1">
               <label className="block font-semibold mb-2 text-xl text-[#4054A5]" htmlFor="id">ID</label>
               <input
+               {...register("id")}
                 id="id"
                 type="text"
                 placeholder="Enter your ID"
@@ -164,6 +165,7 @@ export default function OrderFormTest() {
             <div className="flex-1">
               <label className="block font-semibold mb-2 text-xl text-[#4054A5]" htmlFor="name">Name</label>
               <input
+               {...register("name")}
                 id="name"
                 type="text"
                 placeholder="Enter your name"
