@@ -83,9 +83,11 @@ export default function PaymentDetailsTest({
     // Update refs when props change
     React.useEffect(() => {
         emailRef.current = emailAddress;
+        idRef.current = customerId;
+        nameRef.current = customerName;
         quantityRef.current = quantity;
         totalRef.current = total;
-    }, [emailAddress,quantity, total]);
+    }, [emailAddress,customerId,customerName,quantity, total]);
     
     // React.useEffect(() => {
     //     idRef.current = customerId;
@@ -401,8 +403,8 @@ export default function PaymentDetailsTest({
                     transactionId: transaction.id,
                     transactionDetails: JSON.stringify(orderData),
                     datetime: new Date().toISOString(),
-                    custId: customerId,
-                    custName: customerName
+                    custId: idRef.current,
+                    custName: nameRef.current
                 });
                 await fetch('api/mail', {
                     method: 'POST',
