@@ -444,7 +444,7 @@ export default function PaymentDetailsTest({
             setIsPaying(false);
         }
     }, [cardData, validateEmail, createOrder, resetForm]);
-
+    console.log(idReq, nameReq);
     return (
         <div className="bg-white rounded-2xl shadow-lg border-2 border-violet-300 p-6 md:p-8 flex-1">
             <div className="flex items-center justify-between mb-8">
