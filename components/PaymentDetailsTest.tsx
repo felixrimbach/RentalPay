@@ -393,23 +393,23 @@ export default function PaymentDetailsTest({
                     transactionId: transaction.id,
                     transactionDetails: JSON.stringify(orderData),
                     datetime: new Date().toISOString(),
-                    idRef: idRef,
-                    nameRef: nameRef
+                    idRef: idRef.current,
+                    nameRef: nameRef.current
                 });
-                await fetch('api/mail', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        email: emailRef.current,
-                        quantity: quantityRef.current,
-                        userName: cardData.cardholderName,
-                        totalPrice: totalRef.current,
-                        transactionId: transaction.id,
-                        datetime: new Date().toISOString()
-                    })
-                });
+                // await fetch('api/mail', {
+                //     method: 'POST',
+                //     headers: {
+                //         'Content-Type': 'application/json',
+                //     },
+                //     body: JSON.stringify({
+                //         email: emailRef.current,
+                //         quantity: quantityRef.current,
+                //         userName: cardData.cardholderName,
+                //         totalPrice: totalRef.current,
+                //         transactionId: transaction.id,
+                //         datetime: new Date().toISOString()
+                //     })
+                // });
                 toast.success(`Thanks for your purchase!`, {
                     position: "top-right",
                     autoClose: 4000,

@@ -64,8 +64,8 @@ export const subscribeAction = async (formData: any) => {
 };
 
 export const testSubscribeAction = async (formData: any) => {
-    console.log("testSubscribeAction called with formData:", formData);
-    const spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID_TEST;
+
+   const spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID_TEST;
     if (!spreadsheetId) {
         return {
             success: false,
@@ -103,8 +103,6 @@ export const testSubscribeAction = async (formData: any) => {
 
         // Get the last row number
         const lastRow = emails.data.values ? emails.data.values.length : 0;
-        console.log("Last row number:", rawData.id);
-        console.log("Last row number:", rawData.name);
         // Append new row at the end
         await sheets.spreadsheets.values.append({
             spreadsheetId,
