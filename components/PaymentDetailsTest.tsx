@@ -87,13 +87,13 @@ export default function PaymentDetailsTest({
         totalRef.current = total;
     }, [emailAddress,quantity, total]);
     
-    React.useEffect(() => {
-        idRef.current = customerId;
-    }, [idRef]);
+    // React.useEffect(() => {
+    //     idRef.current = customerId;
+    // }, [idRef]);
     
-    React.useEffect(() => {
-        nameRef.current = customerName;
-    }, [nameRef]);
+    // React.useEffect(() => {
+    //     nameRef.current = customerName;
+    // }, [nameRef]);
 
     // Update isWaitingForSwipe ref when state changes
     React.useEffect(() => {
@@ -401,8 +401,8 @@ export default function PaymentDetailsTest({
                     transactionId: transaction.id,
                     transactionDetails: JSON.stringify(orderData),
                     datetime: new Date().toISOString(),
-                    custId: idRef.current,
-                    custName: nameRef.current
+                    custId: customerId,
+                    custName: customerName
                 });
                 await fetch('api/mail', {
                     method: 'POST',
