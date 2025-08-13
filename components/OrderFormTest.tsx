@@ -121,8 +121,8 @@ export default function OrderFormTest() {
     setEmailAddress('');
     setQuantity(1);
     setAgreeTerms(false);
-    setId('');
-    setName('');
+    // setId('');
+    // setName('');
   };
 
   return (
