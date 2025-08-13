@@ -9,6 +9,8 @@ import PaymentDetailsTest from './PaymentDetailsTest'
 
 const formSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
+  id: z.string().optional(),    // <-- Make optional
+  name: z.string().optional(),  // <-- Make optional
   quantity: z.number().min(1, "Quantity must be at least 1"),
   cardholderName: z.string().min(2, "Please enter the cardholder name"),
   cardNumber: z.string().refine(
@@ -44,6 +46,8 @@ export default function OrderFormTest() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
+      id: "",
+      name: "",
       quantity: Number(DEFAULT_QUANTITY),
       cardholderName: "",
       cardNumber: "",
@@ -55,7 +59,9 @@ export default function OrderFormTest() {
 
   // Watch the email field from the form
   const watchedEmail = watch("email");
-
+  const watchedId = watch("id");
+  const watchedName = watch("name");
+  
   // Update the email state whenever the form email changes
   React.useEffect(() => {
     if (watchedEmail) {
@@ -103,21 +109,52 @@ export default function OrderFormTest() {
           <h2 className="text-3xl md:text-4xl text-[#55BD85] font-bold">Order Details</h2>
         </div>
         <div className="mb-6">
-          <label className="block font-semibold mb-2 text-xl text-[#4054A5]" htmlFor="email">Email Address</label>
-          <input
-            {...register("email")}
-            id="email"
-            type="email"
-            placeholder="your@email.com"
-            onChange={handleEmailChange}
-            className={`w-full p-4 text-lg border-2 rounded-lg focus:outline-none ${errors.email
-              ? 'border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500'
-              : 'border-violet-200 focus:border-violet-500'
-              }`}
-          />
-          {errors.email && (
-            <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
-          )}
+          <div className="flex flex-col md:flex-row gap-4">
+            {/* Email Field */}
+            <div className="flex-1">
+              <label className="block font-semibold mb-2 text-xl text-[#4054A5]" htmlFor="email">Email Address</label>
+              <input
+                {...register("email")}
+                id="email"
+                type="email"
+                placeholder="your@email.com"
+                onChange={handleEmailChange}
+                className={`w-full p-4 text-lg border-2 rounded-lg focus:outline-none ${errors.email
+                  ? 'border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500'
+                  : 'border-violet-200 focus:border-violet-500'
+                  }`}
+              />
+              {errors.email && (
+                <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+              )}
+            </div>
+            {/* ID Field */}
+            <div className="flex-1">
+              <label className="block font-semibold mb-2 text-xl text-[#4054A5]" htmlFor="id">ID</label>
+              <input
+                id="id"
+                type="text"
+                placeholder="Enter your ID"
+                className={`w-full p-4 text-lg border-2 rounded-lg focus:outline-none ${errors.id
+                  ? 'border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500'
+                  : 'border-violet-200 focus:border-violet-500'
+                  }`}
+              />
+            </div>
+            {/* Name Field */}
+            <div className="flex-1">
+              <label className="block font-semibold mb-2 text-xl text-[#4054A5]" htmlFor="name">Name</label>
+              <input
+                id="name"
+                type="text"
+                placeholder="Enter your name"
+                className={`w-full p-4 text-lg border-2 rounded-lg focus:outline-none ${errors.name
+                  ? 'border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500'
+                  : 'border-violet-200 focus:border-violet-500'
+                  }`}
+              />
+            </div>
+          </div>
         </div>
         <div className="mb-6">
           <label className="block font-semibold mb-2 text-xl text-[#4054A5]" htmlFor="quantity">Quantity (Units)</label>
@@ -168,6 +205,8 @@ export default function OrderFormTest() {
       <PaymentDetailsTest
         total={total}
         emailAddress={emailAddress}
+        idReq = {watchedId ?? ""}
+        nameReq ={watchedName?? ""}   
         quantity={quantity}
         validateEmail={async () => {
           const result = await trigger("email");

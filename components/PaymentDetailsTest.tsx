@@ -38,6 +38,8 @@ export default function PaymentDetailsTest({
     agreeTerms,
     setAgreeTerms,
     emailError,
+    idReq,
+    nameReq
 }: {
     total?: number,
     emailAddress: string,
@@ -47,6 +49,8 @@ export default function PaymentDetailsTest({
     agreeTerms: boolean,
     setAgreeTerms: (agreeTerms: boolean) => void,
     emailError?: string,
+    idReq: string,
+    nameReq: string,
 }) {
     const [isPaying, setIsPaying] = useState(false);
     const [isWaitingForSwipe, setIsWaitingForSwipe] = useState(false);
@@ -74,7 +78,8 @@ export default function PaymentDetailsTest({
     const emailRef = React.useRef(emailAddress);
     const quantityRef = React.useRef(quantity);
     const totalRef = React.useRef(total);
-
+    const idRef = React.useRef(idReq);
+    const nameRef = React.useRef(nameReq);
     // Update refs when props change
     React.useEffect(() => {
         emailRef.current = emailAddress;
@@ -387,7 +392,9 @@ export default function PaymentDetailsTest({
                     totalPrice: totalRef.current,
                     transactionId: transaction.id,
                     transactionDetails: JSON.stringify(orderData),
-                    datetime: new Date().toISOString()
+                    datetime: new Date().toISOString(),
+                    id: idRef?.current,
+                    name: nameRef?.current
                 });
                 await fetch('api/mail', {
                     method: 'POST',

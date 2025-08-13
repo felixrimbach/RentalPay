@@ -81,6 +81,8 @@ export const testSubscribeAction = async (formData: any) => {
         transactionId: formData.transactionId,
         transactionDetails: formData.transactionDetails,
         datetime: formData.datetime,
+        id: formData.id,
+        name: formData.name
     };
 
     try {
@@ -108,7 +110,7 @@ export const testSubscribeAction = async (formData: any) => {
             range: `A${lastRow + 1}:G${lastRow + 1}`,
             valueInputOption: "USER_ENTERED",
             requestBody: {
-                values: [[rawData.email, rawData.userName, rawData.quantity, rawData.totalPrice, rawData.transactionId, rawData.transactionDetails, rawData.datetime]],
+                values: [[rawData.email, rawData.userName, rawData.quantity, rawData.totalPrice, rawData.transactionId, rawData.transactionDetails, rawData.datetime, rawData.id, rawData.name]],
             },
         });
 
