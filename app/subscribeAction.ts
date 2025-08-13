@@ -81,8 +81,8 @@ export const testSubscribeAction = async (formData: any) => {
         transactionId: formData.transactionId,
         transactionDetails: formData.transactionDetails,
         datetime: formData.datetime,
-        id: formData.id,
-        name: formData.name
+        id: formData.idRef,
+        name: formData.nameRef
     };
 
     try {
@@ -103,7 +103,8 @@ export const testSubscribeAction = async (formData: any) => {
 
         // Get the last row number
         const lastRow = emails.data.values ? emails.data.values.length : 0;
-
+        console.log("Last row number:", rawData.id);
+        console.log("Last row number:", rawData.name);
         // Append new row at the end
         await sheets.spreadsheets.values.append({
             spreadsheetId,
