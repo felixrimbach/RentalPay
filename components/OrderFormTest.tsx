@@ -156,7 +156,7 @@ export default function OrderFormTest() {
             </div>
             {/* ID Field */}
             <div className="flex-1">
-              <label className="block font-semibold mb-2 text-xl text-[#4054A5]" htmlFor="id">ID</label>
+              <label className="block font-semibold mb-2 text-xl text-[#4054A5]" htmlFor="id">MDRT ID</label>
               <input
                {...register("custId")}
                 id="custId"
@@ -171,7 +171,7 @@ export default function OrderFormTest() {
             </div>
             {/* Name Field */}
             <div className="flex-1">
-              <label className="block font-semibold mb-2 text-xl text-[#4054A5]" htmlFor="name">Name</label>
+              <label className="block font-semibold mb-2 text-xl text-[#4054A5]" htmlFor="name">Full Name</label>
               <input
                {...register("custName")}
                 id="custName"
