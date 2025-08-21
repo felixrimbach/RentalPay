@@ -21,6 +21,8 @@ export const subscribeAction = async (formData: any) => {
         transactionId: formData.transactionId,
         transactionDetails: formData.transactionDetails,
         datetime: formData.datetime,
+        custId: formData.custId,
+        custName: formData.custName
     };
 
     try {
@@ -45,10 +47,10 @@ export const subscribeAction = async (formData: any) => {
         // Append new row at the end
         await sheets.spreadsheets.values.append({
             spreadsheetId,
-            range: `A${lastRow + 1}:G${lastRow + 1}`,
+            range: `A${lastRow + 1}:I${lastRow + 1}`,
             valueInputOption: "USER_ENTERED",
             requestBody: {
-                values: [[rawData.email, rawData.userName, rawData.quantity, rawData.totalPrice, rawData.transactionId, rawData.transactionDetails, rawData.datetime]],
+                values: [[rawData.email, rawData.userName, rawData.quantity, rawData.totalPrice, rawData.transactionId, rawData.transactionDetails, rawData.datetime, rawData.custId, rawData.custName]],
             },
         });
 

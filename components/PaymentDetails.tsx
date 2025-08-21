@@ -32,6 +32,8 @@ interface ErrorState {
 export default function PaymentDetails({
     total,
     emailAddress,
+    customerId,
+    customerName,
     validateEmail,
     quantity,
     resetForm,
@@ -41,6 +43,8 @@ export default function PaymentDetails({
 }: {
     total?: number,
     emailAddress: string,
+    customerId: string,
+    customerName: string,
     validateEmail: () => Promise<boolean>,
     quantity: number,
     resetForm: () => void,
@@ -76,12 +80,16 @@ export default function PaymentDetails({
     const quantityRef = React.useRef(quantity);
     const totalRef = React.useRef(total);
 
+    const idRef = React.useRef(customerId);
+    const nameRef = React.useRef(customerName);
     // Update refs when props change
     React.useEffect(() => {
         emailRef.current = emailAddress;
+        idRef.current = customerId;
+        nameRef.current = customerName;
         quantityRef.current = quantity;
         totalRef.current = total;
-    }, [emailAddress, quantity, total]);
+    }, [emailAddress,customerId,customerName,quantity, total]);
 
     // Update isWaitingForSwipe ref when state changes
     React.useEffect(() => {
@@ -497,7 +505,9 @@ export default function PaymentDetails({
                     totalPrice: totalRef.current,
                     transactionId: transaction.id,
                     transactionDetails: JSON.stringify(orderData),
-                    datetime: new Date().toISOString()
+                    datetime: new Date().toISOString(),
+                    custId: idRef.current,
+                    custName: nameRef.current
                 });
 
                 await fetch('api/mail', {

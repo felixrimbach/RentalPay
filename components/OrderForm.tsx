@@ -10,6 +10,8 @@ import PaymentDetails from './PaymentDetails'
 
 const formSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
+  custId: z.string().optional(),    // <-- Make optional
+  custName: z.string().optional(),  // <-- Make optional
   quantity: z.number().min(1, "Quantity must be at least 1"),
   cardholderName: z.string().min(2, "Please enter the cardholder name"),
   cardNumber: z.string().refine(
@@ -41,10 +43,14 @@ export default function OrderForm() {
   const total = quantity * Number(UNIT_PRICE);
   const [agreeTerms, setAgreeTerms] = useState(false);
 
+  const [customerId, setId] = useState('');
+  const [customerName, setName] = useState('');
   const { register, formState: { errors }, handleSubmit, setValue, trigger, watch, reset } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
+      custId: "",
+      custName: "",
       quantity: Number(DEFAULT_QUANTITY),
       cardholderName: "",
       cardNumber: "",
@@ -57,12 +63,27 @@ export default function OrderForm() {
   // Watch the email field from the form
   const watchedEmail = watch("email");
 
+  const watchedId = watch("custId");
+  const watchedName = watch("custName");
+  
   // Update the email state whenever the form email changes
   React.useEffect(() => {
     if (watchedEmail) {
       setEmailAddress(watchedEmail);
     }
   }, [watchedEmail]);
+
+  React.useEffect(() => {
+    if (watchedId) {
+      setId(watchedId);
+    }
+  }, [watchedId]);
+
+  React.useEffect(() => {
+    if (watchedName) {
+      setName(watchedName);
+    }
+  }, [watchedName]);
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newEmail = e.target.value;
@@ -71,6 +92,18 @@ export default function OrderForm() {
     trigger("email");
   };
 
+  const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newId = e.target.value;
+    setId(newId);
+    setValue("custId", newId);
+    trigger("custId");
+  };
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newName = e.target.value;
+    setName(newName);
+    setValue("custName", newName);
+    trigger("custName");
+  };
   const updateQuantity = (newQuantity: number) => {
     const validQuantity = Math.max(1, newQuantity);
     setQuantity(validQuantity);
@@ -92,6 +125,8 @@ export default function OrderForm() {
     setEmailAddress('');
     setQuantity(1);
     setAgreeTerms(false);
+    // setId('');
+    // setName('');
   };
 
   return (
@@ -104,6 +139,9 @@ export default function OrderForm() {
           <h2 className="text-3xl md:text-4xl text-[#55BD85] font-bold">Order Details</h2>
         </div>
         <div className="mb-6">
+          <div className="flex flex-col md:flex-row gap-4">
+            {/* Email Field */}
+            <div className="flex-1">
           <label className="block font-semibold mb-2 text-xl text-[#4054A5]" htmlFor="email">Email Address</label>
           <input
             {...register("email")}
@@ -119,6 +157,38 @@ export default function OrderForm() {
           {errors.email && (
             <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
           )}
+            </div>
+            {/* ID Field */}
+            <div className="flex-1">
+              <label className="block font-semibold mb-2 text-xl text-[#4054A5]" htmlFor="id">MDRT ID</label>
+              <input
+               {...register("custId")}
+                id="custId"
+                type="text"
+                placeholder="Enter your ID"
+                onChange={handleIdChange}
+                className={`w-full p-4 text-lg border-2 rounded-lg focus:outline-none ${errors.custId
+                  ? 'border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500'
+                  : 'border-violet-200 focus:border-violet-500'
+                  }`}
+              />
+            </div>
+            {/* Name Field */}
+            <div className="flex-1">
+              <label className="block font-semibold mb-2 text-xl text-[#4054A5]" htmlFor="name">Full Name</label>
+              <input
+               {...register("custName")}
+                id="custName"
+                type="text"
+                placeholder="Enter your name"
+                onChange={handleNameChange}
+                className={`w-full p-4 text-lg border-2 rounded-lg focus:outline-none ${errors.custName
+                  ? 'border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500'
+                  : 'border-violet-200 focus:border-violet-500'
+                  }`}
+              />
+            </div>
+          </div>
         </div>
         <div className="mb-6">
           <label className="block font-semibold mb-2 text-xl text-[#4054A5]" htmlFor="quantity">Quantity (Units)</label>
@@ -169,6 +239,8 @@ export default function OrderForm() {
       <PaymentDetails
         total={total}
         emailAddress={emailAddress}
+        customerId={customerId}
+        customerName={customerName}
         quantity={quantity}
         validateEmail={async () => {
           const result = await trigger("email");
