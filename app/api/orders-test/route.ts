@@ -95,13 +95,22 @@ const createOrder = async ({ cart, card }: any) => {
 export async function POST(request: NextRequest) {
     try {
         const { cart, card } = await request.json();
-        const { jsonResponse, httpStatusCode } = await createOrder({ cart, card });
-        return NextResponse.json(jsonResponse, { status: httpStatusCode });
-    } catch (error) {
-        console.error("Failed to create order:", error);
+        const { jsonResponse, httpStatusCode } =
+            await createOrder({ cart, card });
+
+        return NextResponse.json(jsonResponse, {
+            status: httpStatusCode,
+        });
+    } catch (error: any) {
         return NextResponse.json(
-            { error: "Failed to create order." },
+            {
+                error: error?.message || "Failed to create order.",
+                details:
+                    error?.body ||
+                    error?.response?.body ||
+                    null,
+            },
             { status: 500 }
         );
     }
-} 
+}

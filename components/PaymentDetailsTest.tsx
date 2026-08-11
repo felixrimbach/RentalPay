@@ -395,7 +395,7 @@ export default function PaymentDetailsTest({
                 }
                 throw new Error(errorMessage);
             } else {
-              testSubscribeAction({
+              const subscribeResult = await testSubscribeAction({
                     email: emailRef.current,
                     quantity: quantityRef.current,
                     userName: cardData.cardholderName,
@@ -406,6 +406,10 @@ export default function PaymentDetailsTest({
                     custId: idRef.current,
                     custName: nameRef.current
                 });
+                if (!(subscribeResult as any)?.success) {
+                    console.error('Sheet write failed:', subscribeResult);
+                    // optionally toast a warning here, but don't block the purchase flow
+                }
                 await fetch('api/mail', {
                     method: 'POST',
                     headers: {
