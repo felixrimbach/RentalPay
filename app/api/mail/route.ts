@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
                     Transaction ID: ${transactionId}
                     Date / Time: ${formatted}
                     </div>
-                    <p style="font-size: 16pt; text-align: left;">Please note that USD 70 per device will be refunded once the device(s) is/are returned in a good condition. In order to receive the refund, you must return the device on August 27 by 12PM Macau time at Main Platform.</p>
+                    <p style="font-size: 16pt; text-align: left;">Please note that USD 70 per device will be refunded once the device(s) is/are returned in a good condition. In order to receive the refund, you must return the device on August 26 by 12PM Sydney time at Main Platform.</p>
                     <p style="font-size: 16pt; text-align: left;">If you have any questions or concerns, please contact us at <a href="mailto:payment@globibo.com">payment@globibo.com</a>.</p>
                     <p style="font-size: 16pt; text-align: left;">Thank you for your business.</p>
                     <p style="font-size: 16pt; text-align: left;"></p>                    
@@ -49,8 +49,8 @@ export async function POST(request: NextRequest) {
         const msg = {
             to: email,
             from: 'payment@globibo.com', // Change to your verified sender
-            subject: 'Receipt: Your Payment has been received (Mini-Device Rental at MDRT GC 2025)',
-            text: 'Receipt: Your Payment has been received (Mini-Device Rental at MDRT GC 2025)',
+            subject: 'Receipt: Your Payment has been received (Mini-Device Rental at MDRT GC 2026)',
+            text: 'Receipt: Your Payment has been received (Mini-Device Rental at MDRT GC 2026)',
             html: html,
         };
 

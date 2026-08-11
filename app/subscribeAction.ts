@@ -60,8 +60,11 @@ export const subscribeAction = async (formData: any) => {
         };
 
     } catch (error: unknown) {
-        console.error(error);
-        return error;
+        console.error('subscribeAction Google Sheets write failed:', error);
+        return {
+            success: false,
+            errors: [error instanceof Error ? error.message : String(error)],
+        };
     }
 };
 
@@ -121,7 +124,10 @@ export const testSubscribeAction = async (formData: any) => {
         };
 
     } catch (error: unknown) {
-        console.error(error);
-        return error;
+        console.error('testSubscribeAction Google Sheets write failed:', error);
+        return {
+            success: false,
+            errors: [error instanceof Error ? error.message : String(error)],
+        };
     }
 };
