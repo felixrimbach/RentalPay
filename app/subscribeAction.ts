@@ -37,7 +37,7 @@ export const subscribeAction = async (formData: any) => {
 
         // Get the emails from the spreadsheet
         const emails = await sheets.spreadsheets.values.get({
-            spreadsheetId: process.env.GOOGLE_SHEETS_SPREADSHEET_ID,
+            spreadsheetId: spreadsheetId,
             range: readRange,
         });
 
@@ -45,7 +45,7 @@ export const subscribeAction = async (formData: any) => {
         const lastRow = emails.data.values ? emails.data.values.length : 0;
 
         // Append new row at the end
-        await sheets.spreadsheets.values.append({
+        const response = await sheets.spreadsheets.values.append({
             spreadsheetId,
             range: `A${lastRow + 1}:I${lastRow + 1}`,
             valueInputOption: "USER_ENTERED",
@@ -74,7 +74,7 @@ export const testSubscribeAction = async (formData: any) => {
             errors: ["There was an error connecting to google."],
         };
     }
-    console.log("Form Data:", formData);
+    console.log("testSubscribeAction Form Data:", formData);
     const rawData = {
         email: formData.email,
         quantity: formData.quantity,
@@ -99,14 +99,14 @@ export const testSubscribeAction = async (formData: any) => {
 
         // Get the emails from the spreadsheet
         const emails = await sheets.spreadsheets.values.get({
-            spreadsheetId: process.env.GOOGLE_SHEETS_SPREADSHEET_ID,
+            spreadsheetId: spreadsheetId,
             range: readRange,
         });
 
         // Get the last row number
         const lastRow = emails.data.values ? emails.data.values.length : 0;
         // Append new row at the end
-        await sheets.spreadsheets.values.append({
+        const response = await sheets.spreadsheets.values.append({
             spreadsheetId,
             range: `A${lastRow + 1}:I${lastRow + 1}`,
             valueInputOption: "USER_ENTERED",

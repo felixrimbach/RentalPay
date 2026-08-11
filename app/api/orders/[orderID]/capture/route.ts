@@ -58,7 +58,8 @@ export async function POST(
     try {
         // Extract orderID using regex
         const url = new URL(request.url);
-        const match = url.pathname.match(/\/api\/orders\/([^\/]+)\/capture/);
+        //const match = url.pathname.match(/\/api\/orders\/([^\/]+)\/capture/);
+        const match = url.pathname.match(/\/api\/orders\/([^/]+)\/capture/);
         const orderID = match ? match[1] : '';
 
         const { jsonResponse, httpStatusCode } = await captureOrder(orderID);
